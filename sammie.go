@@ -19,7 +19,6 @@ var BUCKET = os.Getenv("BUCKET")
 var DST = os.Getenv("DST")
 
 var jobs chan string
-var client minio.Client
 var exists = struct{}{}
 
 func makeclient() *minio.Client {
