@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
+	"log"
 	"os"
 	"strings"
 )
@@ -67,19 +67,19 @@ func worker(ctx context.Context, done chan bool) {
 		// Upload
 		for obj := range objs {
 			if obj.Err != nil {
-			    log.Fatalln(obj.Err)
+				log.Fatalln(obj.Err)
 			}
 
 			remoteset[splitname(obj.Key)] = exists
 			dst := DST + obj.Key
 			if good(dst, obj.Size) {
-				continue;
+				continue
 			}
 
 			log.Printf("[%s] + %s", ctx.Value("label"), obj.Key)
 			err := client.FGetObject(ctx, BUCKET, obj.Key, dst, minio.GetObjectOptions{})
 			if err != nil && err.Error() != "The specified key does not exist." {
-			    log.Fatalln(err)
+				log.Fatalln(err)
 			}
 		}
 
@@ -91,9 +91,9 @@ func worker(ctx context.Context, done chan bool) {
 
 		for _, file := range files {
 			if _, ok := remoteset[file.Name()]; !ok {
-			    path := key + "/" + file.Name()
-    			log.Printf("[%s] - %s", ctx.Value("label"), path)
-			    os.Remove(DST + path)
+				path := key + "/" + file.Name()
+				log.Printf("[%s] - %s", ctx.Value("label"), path)
+				os.Remove(DST + path)
 			}
 		}
 	}
@@ -115,10 +115,10 @@ func main() {
 	dirs := makeclient().ListObjects(ctx, BUCKET, minio.ListObjectsOptions{})
 	for dir := range dirs {
 		if dir.Err != nil {
-		    log.Fatalln(dir.Err)
+			log.Fatalln(dir.Err)
 		}
 
-	    jobs <- dir.Key
+		jobs <- dir.Key
 	}
 
 	close(jobs)
