@@ -1,5 +1,7 @@
-README
+Sammie
 ======
+
+![A happy samoyed fetching a stick](/docs/sammie.png?raw=true "Sammie")
 
 Sammie synchronizes contents of a S3 bucket to the local filesystem. It
 expects all keys in the bucket to follow a specific pattern:
