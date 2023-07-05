@@ -79,6 +79,7 @@ func worker(ctx context.Context, done chan bool) {
 			log.Printf("[%s] + %s", ctx.Value("label"), obj.Key)
 			err := client.FGetObject(ctx, BUCKET, obj.Key, dst, minio.GetObjectOptions{})
 			if err != nil && err.Error() != "The specified key does not exist." {
+				log.Printf("[%s] FGetObject failed for %s", ctx.Value("label"), obj.Key)
 				log.Fatalln(err)
 			}
 		}
